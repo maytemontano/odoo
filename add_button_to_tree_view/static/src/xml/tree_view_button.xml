@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+<button t-name="SaleOrderButton.Buttons" class="btn btn-primary" type="button">My Custom Button</button>
+
+</templates>

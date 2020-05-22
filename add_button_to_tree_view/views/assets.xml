@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr=".">
+            <script type="text/javascript" src="/add_button_to_tree_view/static/src/js/tree_view_button_list_controller.js"></script>
+            <script type="text/javascript" src="/add_button_to_tree_view/static/src/js/tree_view_button_list_view.js"></script>
+        </xpath>
+    </template>
+</odoo>

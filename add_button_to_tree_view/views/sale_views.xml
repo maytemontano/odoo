@@ -1,0 +1,12 @@
+<odoo>
+    <!-- Add new button to sale.order tree view  -->
+    <record id="view_order_tree_inherited" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="js_class">sale_order_tree_view_button</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
