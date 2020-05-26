@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+    <!-- Cron cambia estado de Poliza de Seguro a expirado -->
+    <!-- y envia recordatorio que Poliza de Seguro esta por expirar -->
+    <record id="fleet_insurance_set_expire_cron" model="ir.cron">
+        <field name="name">Seguro de Vehiculo - expirada</field>
+        <field name="model_id" ref="model_fleet_vehicle_insurance"/>
+        <field name="state">code</field>
+        <field name="code">model.action_cron_expire_insurance()</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+    
+</odoo>

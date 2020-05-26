@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Agregar nuevo Boton "Seguros" -->
+    <record model="ir.ui.view" id="fleet_vehicle_view_form_inherit_01">
+        <field name="name">fleet.vehicle.form.inherit.01</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <data> 
+                <!-- Nuevo boton "Seguro" -->
+                 <xpath expr="//button[@name='act_show_log_cost']" position="before"> 
+                    <button name="return_action_to_open_fleet_insurance" 
+                            type="object" 
+                            class="oe_stat_button" 
+                            icon="fa-shield"
+                            context="{'xml_id':'fleet_vehicle_insurance_action', 'search_default_open': 1,'default_vehicle_id': active_id}"
+                            help="Muestra Polizas de Seguro activas para este vehiculo">
+						<field name="insurance_count" widget="statinfo" string="Seguros"/>
+					</button>                   
+                </xpath> 
+            </data>                
+        </field>
+    </record>   
+    
+    <!-- Action para boton "Seguros" -->
+    <record id='fleet_vehicle_insurance_action' model='ir.actions.act_window'>
+        <field name="name">Seguros</field>
+        <field name="res_model">fleet.vehicle.insurance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','confirm')]</field>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crear una nueva Poliza de Seguro para este Auto
+          </p>
+        </field>
+    </record>
+</odoo>

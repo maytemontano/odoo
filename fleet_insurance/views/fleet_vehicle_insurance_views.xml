@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>  
+    
+    <!-- Vista Formulario Polizas de Seguro -->
+    <record id='fleet_vehicle_insurance_view_form' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.insurance.form</field>
+        <field name="model">fleet.vehicle.insurance</field>
+        <field name="arch" type="xml">
+            <form string="Polizas de Seguro">
+               	<header>
+						<button name="action_confirm" type="object" string="Confirmar" states="draft" class="oe_highlight"/>
+						<button name="action_cancel" type="object" string="Cancelar" states="confirm"/>
+						<button name="action_set_draft" type="object" string="Pasar a Borrador" states="confirmed,cancel"/>
+						<button name="action_set_expire" type="object" string="Marcar como Expirada" states="confirm"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,cancel,expired"/>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+						</div>
+						<group>
+							<group>
+								<field name="name" required="1" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+								<field name="vehicle_id" required="1" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+								<field name="fleet_insurance_type_id" required="1" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+								<field name="date_start" required="1" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+								<field name="date_end" required="1" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+							</group>
+							<group>
+								<field name="days_to_notify" required="1" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="activity_ids" widget="mail_activity"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+            </form>
+        </field>
+    </record>
+    
+     <!-- Vista Arbol Tipos de Polizas  -->
+    <record id='fleet_vehicle_insurance_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.insurance.tree</field>
+        <field name="model">fleet.vehicle.insurance</field>
+        <field name="arch" type="xml">
+            <tree string="Poliza Seguro">
+					<field name="name"/>
+					<field name="vehicle_id"/>
+					<field name="fleet_insurance_type_id"/>
+					<field name="date_start"/>
+					<field name="date_end"/>
+					<field name="state"/>
+				</tree>			
+        </field>
+    </record>
+    
+    <!-- Vista Formulario Tipos de Polizas  -->
+    <record id='fleet_vehicle_insurance_type_view_form' model='ir.ui.view'>
+        <field name="name">fleet.insurance.type.form</field>
+        <field name="model">fleet.insurance.type</field>
+        <field name="arch" type="xml">
+            <form string="Tipos de Polizas de Seguro">
+                <sheet>
+                    <group col="2">
+                            <field name="name"/>
+                            <field name="period"/>
+                            <field name="days_to_notify"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                </div>
+            </form>
+        </field>
+    </record>
+        
+    <!-- Menu item y action para tipos de polizas de seguro -->
+    <record id='fleet_vehicle_insurance_types_action' model='ir.actions.act_window'>
+        <field name="name">Tipos de Polizas Seguros</field>
+        <field name="res_model">fleet.insurance.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crear un nuevo tipo de poliza de seguro.
+          </p>
+        </field>
+    </record>
+    <menuitem action="fleet_vehicle_insurance_types_action" parent="fleet.fleet_configuration" id="fleet_vehicle_insurance_types_menu" sequence="5"/>
+    
+    <record id='fleet_vehicle_insurance_menu_action' model='ir.actions.act_window'>
+        <field name="name">Polizas Seguros Vehiculos</field>
+        <field name="res_model">fleet.vehicle.insurance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crear una nueva Poliza de Seguros para Vehiculo.
+          </p>
+        </field>
+    </record>
+
+    <menuitem name="Polizas Seguro" parent="fleet.menu_root" id="fleet_vehicles_insurance" sequence="2" groups="fleet.fleet_group_user"/>
+    <menuitem action="fleet_vehicle_insurance_menu_action" parent="fleet_vehicles_insurance" id="fleet_vehicle_menu" groups="fleet.fleet_group_user"/>
+    </data>
+</odoo>
