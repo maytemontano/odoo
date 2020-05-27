@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- Drop Down Monedas (Historico Pagos Accounting->Reporting->Partner Reports->Aged Payable) -->
+        <template id="search_template_currencies">
+            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-dollar"/>
+                Monedas:
+                <t t-set="currency_value" t-value="'Todas'"/>
+                <t t-foreach="options['currencies']" t-as="j">
+                    <t t-if="j.get('selected') == True">
+                        <t t-set="currency_value" t-value="''"/>
+                        <t t-esc="j.get('name')"/>
+                    </t>
+                </t>
+                <t t-esc="currency_value"/>
+                <span class="caret"/>
+            </a>
+            <ul class="dropdown-menu o_filters_menu" role="menu">
+                <t t-foreach="options['currencies']" t-as="c">
+                    <li t-att-title="c.get('name')" data-filter="currencies" t-att-data-id="c.get('id')" class="js_account_report_choice_filter"><a><t t-esc="c.get('name')"/></a></li>
+                </t>
+            </ul>
+        </template>
+        
+        <!-- Drop Down Categorias Multi Select (Historico Pagos Accounting->Reporting->Partner Reports->Aged Payable) -->
+        <template id="search_template_categories">
+            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-book"/>
+                Categorias:
+                <t t-set="category_value" t-value="'Todas'"/>
+                <t t-foreach="options['categories']" t-as="j">
+                    <t t-if="j.get('selected') == True">
+                        <t t-set="category_value" t-value="''"/>
+                        <t t-esc="j.get('name')"/>
+                    </t>
+                </t>
+                <t t-esc="category_value"/>
+                <span class="caret"/>
+            </a>
+            <ul class="dropdown-menu o_filters_menu" role="menu">
+                <t t-foreach="options['categories']" t-as="j">
+                    <t t-if="j.get('id') == 'divider'">
+                        <li class="divider"></li>
+                        <li><b style="margin-left: 5px;"><t t-esc="j.get('name')"/></b></li>
+                        <li class="divider"></li>
+                    </t>
+                    <t t-if="j.get('id') != 'divider'">
+                        <li t-att-title="j.get('name')" t-att-data-id="j.get('id')" data-filter="categories" class="js_account_report_choice_filter"><a><t t-esc="j.get('name')"/></a></li>
+                    </t>
+                </t>
+            </ul>
+        </template>
+        
+        <template id="search_template_inherited_1" inherit_id="account_reports.search_template">
+            <xpath expr="//div[@class='btn-group o_dropdown o_account_reports_filter_analytic']" position="after">
+                <!-- Agregar filtro para Monedas (currencies) y Categorias (categories) -->
+                <div class="btn-group o_dropdown o_account_reports_filter_date_cmp" t-if="options.get('currencies') != None">
+                    <t t-call="custom_aged_payable_report.search_template_currencies"/>
+                </div>
+                <div class="btn-group o_dropdown o_account_reports_filter_date_cmp" t-if="options.get('categories') != None">
+                    <t t-call="custom_aged_payable_report.search_template_categories"/>
+                </div>
+            </xpath>
+        </template>
+
+
+    </data>
+</odoo>
